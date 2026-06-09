@@ -11,7 +11,7 @@ class empresaafiliado extends Model
         'empaf_empresa',
         'empaf_fechaalta',
         'empaf_fechabaja'
-    ];  
+    ];
 
     public static function registrar_empresaafiliado($afiliado,$empresa,$fechaalta,$fechabaja){
         return empresaafiliado::create([
@@ -30,7 +30,7 @@ class empresaafiliado extends Model
             'empaf_fechabaja'=>$fechabaja
        ];
        return empresaafiliado::where('id',$id)
-            ->update($data); 
+            ->update($data);
     }
 
     public static function eliminar_empresaafiliado($id){
@@ -41,7 +41,9 @@ class empresaafiliado extends Model
     public static function listar_empresaafiliado($request){
         $query=empresaafiliado::leftJoin('empresas as emp','emp.id','=','empresaafiliados.empaf_empresa')
             ->leftJoin('afiliados as af','af.id','=','empresaafiliados.empaf_afiliado')
+
             ->select(
+                'empresaafiliados.id as ID',
                 'af.af_nroAfiliado as NROAFILIADO',
                 'af.af_orden as ORDEN',
                 'af.af_cuil as CUIL',
@@ -55,6 +57,7 @@ class empresaafiliado extends Model
                 $query->where('af.af_nroAfiliado','LIKE','%'.$request->input('search').'%')
                     ->orWhere('af.af_dni','LIKE','%'.$request->input('search').'%');
             }
+            //dd($query->paginate(5));
             return $query->orderBy('id')
                 ->paginate(10);
     }
