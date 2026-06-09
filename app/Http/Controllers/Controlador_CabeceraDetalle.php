@@ -58,7 +58,7 @@ class Controlador_CabeceraDetalle extends Controller
 
     public function listar_planillaafiliados(Request $request){
         try{
-            return response()->json([empresaafiliado::listar_planillaafiliados($request)]);
+            return response()->json([empresaafiliado::listar_empresaafiliado($request)]);
         }catch(\Throwable $th){
             $th="error exception";
         }
