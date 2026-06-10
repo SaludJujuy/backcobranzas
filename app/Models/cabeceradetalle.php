@@ -79,7 +79,7 @@ class cabeceradetalle extends Model
                 'af.af_cuil as CUIL',
                 'af.af_apellidoNombre as NOMBRECOMPLETO',
                 'estaf.ea_estado as ESTADOAFILIADO',
-                'os.os_siglas as OBRA SOCIAL',
+                'os.os_siglas as OBRASOCIAL',
                 'p.pl_razonSocial as PLAN'
             );
 
