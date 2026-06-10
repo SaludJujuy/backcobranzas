@@ -68,7 +68,7 @@ Route::post('/cabeceradetalle/insert',[Controlador_CabeceraDetalle::class,'regis
 Route::post('/cabeceradetalle/update',[Controlador_CabeceraDetalle::class,'modificar_cabeceradetalle']);
 Route::post('/cabeceradetalle/delete',[Controlador_CabeceraDetalle::class,'eliminar_cabeceradetalle']);
 Route::get('/cabeceradetalle/list',[Controlador_CabeceraDetalle::class,'listar_cabeceradetalle']);
-Route::get('/cabeceradetalle/afiliado/list',[Controlador_CabeceraDetalle::class,'listar_planillaafiliados']);
+Route::get('/cabeceradetalle/planillaafiliados',[Controlador_CabeceraDetalle::class,'listar_planillaafiliados']);
 
 Route::post('/planafiliado/insert',[Controlador_PlanAfiliado::class,'registrar_planafiliado']);
 Route::post('/planafiliado/update',[Controlador_PlanAfiliado::class,'modificar_planafiliado']);

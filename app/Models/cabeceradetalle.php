@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class cabeceradetalle extends Model
 {
+    protected $table='cabeceradetalles';
     protected $filiable=[
         'cd_fecha',
         'cd_empresaafiliados',
@@ -38,7 +41,7 @@ class cabeceradetalle extends Model
             ->delete();
     }
 
-    public static function listar_cabeceradetalle($request){
+    public static function listar_cabeceradetalle(Request $request){
         $query=cabeceradetalle::leftJoin('empresaafiliados as empaf','empaf.id','=','cabeceradetalle.cd_empresaafiliados')
             ->leftJoin('afiliados as af','af.id','=','empaf.empaf_afiliado')
             ->leftJoin('empresas as emp','emp.id','=','cabeceradetalles.cd_empresa')
@@ -55,12 +58,15 @@ class cabeceradetalle extends Model
             ->paginate(10);
     }
 
-    public static function listar_planillaafiliados($request)
+
+
+    public static function listar_planillaafiliados(Request $request)
     {
-        $query = cabeceradetalle::query()
-            ->leftJoin('declaraionrecibidas as dr', 'dr.dr_cabeceradetalle', '=', 'cabeceradetalle.id')
-            ->leftJoin('declaracionesperadas as de', 'de.de_cabeceradetalle', '=', 'cabeceradetalle.id')
-            ->leftJoin('empresaafiliados as empaf', 'empaf.id', '=', 'cabeceradetalle.cd_empresaafiliados')
+
+
+        $query = cabeceradetalle::leftJoin('declaracionrecibidas as dr', 'dr.dr_cabeceradetalles', '=', 'cabeceradetalles.id')
+            ->leftJoin('declaracionesperadas as de', 'de.de_cabeceradetalles', '=', 'cabeceradetalles.id')
+            ->leftJoin('empresaafiliados as empaf', 'empaf.id', '=', 'cabeceradetalles.cd_empresaafiliados')
             ->leftJoin('afiliados as af', 'af.id', '=', 'empaf.empaf_afiliado')
             ->leftJoin('estado_afiliados as estaf', 'estaf.ea_afiliado', '=', 'af.id')
             ->leftJoin('planafiliados as plaf', 'plaf.pa_afiliado', '=', 'af.id')
@@ -68,31 +74,15 @@ class cabeceradetalle extends Model
             ->leftJoin('obra_socials as os', 'os.id', '=', 'p.pl_obraSocial')
             ->leftJoin('empresas as emp', 'emp.id', '=', 'empaf.empaf_empresa')
             ->select(
-                'af.id',
-                'emp.emp_razonsocial as razonSocial',
-                'af.af_nroAfiliado as nroAfiliado',
-                'af.af_apellidoNombre as apellidoNombre',
-                'estaf.ea_estado as estadoAfiliado',
-                'os.os_siglas as obraSocial',
-                'p.pl_razonsocial as plan',
-                'dr.dr_declaracionjurada as declaracionJurada',
-                'dr.dr_cct as cct',
-                'dr.dr_aportecontribucionrecibida as aporteRecibido',
-                'de.de_aportecontribucionesperada as aporteEsperado'
-            )
-            ->groupBy(
-                'af.id',
-                'emp.emp_razonsocial',
-                'af.af_nroAfiliado',
-                'af.af_apellidoNombre',
-                'estaf.ea_estado',
-                'os.os_siglas',
-                'p.pl_razonsocial',
-                'dr.dr_declaracionjurada',
-                'dr.dr_cct',
-                'dr.dr_aportecontribucionrecibida',
-                'de.de_aportecontribucionesperada'
+                'cabeceradetalles.*',
+                'af.af_nroAfiliado as NROAFILIADO',
+                'af.af_cuil as CUIL',
+                'af.af_apellidoNombre as NOMBRECOMPLETO',
+                'estaf.ea_estado as ESTADOAFILIADO',
+                'os.os_siglas as OBRA SOCIAL',
+                'p.pl_razonSocial as PLAN'
             );
+
 
         if ($request->filled('search')) {
             $search = $request->input('search');
@@ -102,7 +92,6 @@ class cabeceradetalle extends Model
                 ->orWhere('af.af_dni', 'LIKE', "%$search%");
             });
         }
-
         return $query->orderBy('af.id', 'desc')->paginate(10);
     }
 }
