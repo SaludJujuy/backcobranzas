@@ -62,8 +62,28 @@ class cabeceradetalle extends Model
 
     public static function listar_planillaafiliados(Request $request)
     {
-
-
+        $query = TotalAfiliado::leftJoin('cabeceradetalles as cd', 'cd.id', '=', 'total_afiliados.ta_cabeceradetalle')
+            ->leftJoin('empresaafiliados as empaf', 'empaf.id', '=', 'cd.cd_empresaafiliados')
+            ->leftJoin('afiliados as af', 'af.id', '=', 'empaf.empaf_afiliado')
+            ->leftJoin('estado_afiliados as estaf', 'estaf.ea_afiliado', '=', 'af.id')
+            ->leftJoin('planafiliados as plaf', 'plaf.pa_afiliado', '=', 'af.id')
+            ->leftJoin('plans as p', 'p.id', '=', 'plaf.pa_plan')
+            ->leftJoin('obra_socials as os', 'os.id', '=', 'p.pl_obraSocial')
+            ->leftJoin('empresas as emp', 'emp.id', '=', 'empaf.empaf_empresa')
+            ->select(
+                'total_afiliados.id as ID',
+                'af.af_nroAfiliado as NROAFILIADO',
+                'af.af_cuil as CUIL',
+                'af.af_apellidoNombre as NOMBRECOMPLETO',
+                'estaf.ea_estado as ESTADOAFILIADO',
+                'os.os_siglas as OBRASOCIAL',
+                'p.pl_razonSocial as PLAN',
+                'total_afiliados.ta_cabeceradetalle as CABECERADETALLE',
+                'total_afiliados.ta_totalaporte as TOTALAPORTE',
+                'total_afiliados.ta_totaldeuda as TOTALDEUDA',
+                'total_afiliados.ta_periodo as PERIODO'
+            );
+        /*
         $query = cabeceradetalle::leftJoin('declaracionrecibidas as dr', 'dr.dr_cabeceradetalles', '=', 'cabeceradetalles.id')
             ->leftJoin('declaracionesperadas as de', 'de.de_cabeceradetalles', '=', 'cabeceradetalles.id')
             ->leftJoin('empresaafiliados as empaf', 'empaf.id', '=', 'cabeceradetalles.cd_empresaafiliados')
@@ -82,8 +102,7 @@ class cabeceradetalle extends Model
                 'os.os_siglas as OBRASOCIAL',
                 'p.pl_razonSocial as PLAN'
             );
-
-
+        */
         if ($request->filled('search')) {
             $search = $request->input('search');
 

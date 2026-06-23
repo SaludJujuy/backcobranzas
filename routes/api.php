@@ -15,6 +15,7 @@ use App\Http\Controllers\Controlador_EmpresaAfiliado;
 use App\Http\Controllers\Controlador_ObraSocial;
 use App\Http\Controllers\Controlador_Plan;
 use App\Http\Controllers\Controlador_PlanAfiliado;
+use App\Http\Controllers\Controlador_TotalAfiliado;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -84,3 +85,8 @@ Route::post('/empresaafiliado/insert',[Controlador_EmpresaAfiliado::class,'regis
 Route::post('/empresaafiliado/update',[Controlador_EmpresaAfiliado::class,'modificar_empresaafiliado']);
 Route::post('/empresaafiliado/delete',[Controlador_EmpresaAfiliado::class,'eliminar_empresaafiliado']);
 Route::get('/empresaafiliado/list',[Controlador_EmpresaAfiliado::class,'listar_empresaafiliado']);
+
+Route::post('/totalafiliado/insert',[Controlador_TotalAfiliado::class,'registrar_totalafiliado']);
+Route::post('/totalafiliado/update',[Controlador_TotalAfiliado::class,'modificar_totalafiliado']);
+Route::post('/totalafiliado/delete',[Controlador_TotalAfiliado::class,'eliminar_totalafiliado']);
+Route::get('/totalafiliado/list',[Controlador_TotalAfiliado::class,'listar_totalafiliado']);
