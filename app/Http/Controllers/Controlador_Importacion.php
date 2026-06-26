@@ -39,6 +39,12 @@ class Controlador_Importacion extends Controller
             );
         }
 
+        dd([
+        'hasFile' => $request->hasFile('archivo'),
+        'extension' => $request->file('archivo')?->getClientOriginalExtension(),
+        'mime' => $request->file('archivo')?->getMimeType(),
+        'nombre' => $request->file('archivo')?->getClientOriginalName(),
+    ]);
         return response()->json([
             'success' => true,
             'columnas' => $encabezados,
