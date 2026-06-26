@@ -16,6 +16,7 @@ use App\Http\Controllers\Controlador_ObraSocial;
 use App\Http\Controllers\Controlador_Plan;
 use App\Http\Controllers\Controlador_PlanAfiliado;
 use App\Http\Controllers\Controlador_TotalAfiliado;
+use App\Http\Controllers\Controlador_Importacion;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -90,3 +91,6 @@ Route::post('/totalafiliado/insert',[Controlador_TotalAfiliado::class,'registrar
 Route::post('/totalafiliado/update',[Controlador_TotalAfiliado::class,'modificar_totalafiliado']);
 Route::post('/totalafiliado/delete',[Controlador_TotalAfiliado::class,'eliminar_totalafiliado']);
 Route::get('/totalafiliado/list',[Controlador_TotalAfiliado::class,'listar_totalafiliado']);
+
+Route::post('/importacion/preview', [Controlador_Importacion::class,'preview']);
+Route::post('/importacion/guardar', [Controlador_Importacion::class,'guardar']);
