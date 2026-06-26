@@ -12,7 +12,7 @@ class Controlador_Importacion extends Controller
     public function preview(Request $request)
     {
         $request->validate([
-            'archivo' => 'required|file|mimes:xlsx,xls,csv'
+            'archivo' => 'required|file'
         ]);
 
         $archivo = $request->file('archivo');
@@ -39,12 +39,7 @@ class Controlador_Importacion extends Controller
             );
         }
 
-        dd([
-        'hasFile' => $request->hasFile('archivo'),
-        'extension' => $request->file('archivo')?->getClientOriginalExtension(),
-        'mime' => $request->file('archivo')?->getMimeType(),
-        'nombre' => $request->file('archivo')?->getClientOriginalName(),
-    ]);
+
         return response()->json([
             'success' => true,
             'columnas' => $encabezados,
